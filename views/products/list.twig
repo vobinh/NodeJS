@@ -1,0 +1,75 @@
+{% extends 'layout/_layout.twig' %}
+
+{% block content %}
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Tên</td>
+                <td>Giá</td>
+                <td>Trạng Thái</td>
+                <td>Hình</td>
+                <td>Mô Tả</td>
+            </tr>
+        </thead>
+        {% for key, item in data %}
+            <tr>
+                <td>{{ item.Name }}</td>
+                <td>{{ item.Price }}</td>
+                <td>{{ item.Status }}</td>
+                <td>
+                    <img class="lazy" data-original="{{ item.MainImage }}" alt="" width="160" height="160">
+                    {% if item.Images %}
+                        <ul>
+                            {% for img in item.Images %}
+                                <li><a href="{{ img.Image }}">{{ img.Image }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </td>
+                <td>{# item.Description #}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="3">Total: </td>
+            <td>{{ total|number_format(2, '.', ',') }}</td>
+        </tr>
+    </table>
+    {{ repeat("_.", 10) }}
+    {% set foo = [1, 2, 3] %}
+    {% set name = 'binh' %}
+    <ul>
+    {% for key, item in foo %}
+        {% if item == 2 %}
+            <li>{{ key }} : {{ item }}</li>
+            <li>{{ foo[key] }}</li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+    {% for i in 0..10 %}
+        * {{ i }}
+    {% endfor %}
+{% endblock %}
+
+{% block jsExtends %}
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="../../assets/global/scripts/metronic.js" type="text/javascript"></script>
+    <script src="../../assets/admin/layout4/scripts/layout.js" type="text/javascript"></script>
+    <script src="../../assets/admin/layout2/scripts/quick-sidebar.js" type="text/javascript"></script>
+    <script src="../../assets/admin/layout4/scripts/demo.js" type="text/javascript"></script>
+    <script src="../../assets/admin/pages/scripts/tasks.js" type="text/javascript"></script>
+    <script src="../../js/jquery-lazyload/jquery.lazyload.js" type="text/javascript"></script>
+    <!-- END PAGE LEVEL SCRIPTS -->
+    <script>
+        jQuery(document).ready(function () {
+            Metronic.init(); // init metronic core componets
+            Layout.init(); // init layout
+            Demo.init(); // init demo features
+
+            $("img.lazy").lazyload({
+                threshold : 160,
+                effect : "fadeIn"
+            });
+        });
+
+    </script>
+{% endblock %}
